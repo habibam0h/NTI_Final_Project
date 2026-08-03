@@ -1,4 +1,3 @@
-
 #include "Std_Types.h"
 #include "Bit_Math.h"
 
@@ -14,10 +13,10 @@
 /* Store the character corresponding to each keypad position */
 static const u8 KEYPAD_KEYS[KEYPAD_ROWS_NUM][KEYPAD_COLS_NUM] =
 {
-    {'7','8','9','/'},
-    {'4','5','6','*'},
-    {'1','2','3','-'},
-    {'C','0','=','+'}
+    {'1','2','3'},
+    {'4','5','6'},
+    {'7','8','9'},
+    {'*','0','#'}
 };
 
 
@@ -40,8 +39,7 @@ static const u8 KEYPAD_COLS[KEYPAD_COLS_NUM][2] =
 {
     {KEYPAD_COL0},
     {KEYPAD_COL1},
-    {KEYPAD_COL2},
-    {KEYPAD_COL3}
+    {KEYPAD_COL2}
 };
 
 
@@ -57,7 +55,10 @@ void KEYPAD_voidInitialization(void)
         DIO_voidSetPinValue(KEYPAD_ROWS[Local_u8Iterator][0],
                             KEYPAD_ROWS[Local_u8Iterator][1],
                             DIO_HIGH);
+    }
 
+    for(u8 Local_u8Iterator = 0; Local_u8Iterator < KEYPAD_COLS_NUM; Local_u8Iterator++)
+    {
         /* Set the current column to High */
         DIO_voidSetPinValue(KEYPAD_COLS[Local_u8Iterator][0],
                             KEYPAD_COLS[Local_u8Iterator][1],
