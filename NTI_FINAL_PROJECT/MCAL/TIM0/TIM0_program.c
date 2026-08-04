@@ -51,7 +51,7 @@ void TIM0_voidInitialization(void)
 	TIM0_voidSetOVReg(0);
 
 	/* Clear the Timer0 Output Compare Register */
-	TIM0_voidSetCTCReg(0);
+	TIM0_voidSetCompareReg(0);
 
 	/* Start Timer0 with the configured clock prescaler */
 	TIM0_voidSetPrescaler(TIM0_PRESCALER);
@@ -271,30 +271,6 @@ void TIM0_voidClearCTCFlag(void)
 
 
 /*========================================================
- * Function: TIM0_voidSetCTCReg
- * Purpose : Set the Timer0 Output Compare Register (OCR0)
- *           with a specific value
- *========================================================*/
-void TIM0_voidSetCTCReg(u8 CTCRegValue)
-{
-	/* Set the Timer0 compare value */
-	OCR0_REG = CTCRegValue;
-}
-
-
-/*========================================================
- * Function: TIM0_u8GetCTCReg
- * Purpose : Get and return the current Timer0 Output
- *           Compare Register (OCR0) value
- *========================================================*/
-u8 TIM0_u8GetCTCReg(void)
-{
-	/* Return the current Timer0 compare value */
-	return OCR0_REG;
-}
-
-
-/*========================================================
  * Function: TIM0_voidCTCSetCallBack
  * Purpose : Set the callback function to be executed when
  *           the Timer0 Compare Match interrupt occurs
@@ -327,3 +303,94 @@ void __vector_10(void)
 	}
 }
 
+
+/*==================== CTC / PWM SHARED FUNCTIONS ====================*/
+
+
+/*========================================================
+ * Function: TIM0_voidSetCompareReg
+ * Purpose : Set the Timer0 Output Compare Register (OCR0)
+ *           with a specific value
+ *========================================================*/
+void TIM0_voidSetCompareReg(u8 CompareRegValue)
+{
+	/* Set the Timer0 Output Compare Register value */
+	OCR0_REG = CompareRegValue;
+}
+
+
+/*========================================================
+ * Function: TIM0_u8GetCompareReg
+ * Purpose : Get and return the current Timer0 Output
+ *           Compare Register (OCR0) value
+ *========================================================*/
+u8 TIM0_u8GetCompareReg(void)
+{
+	/* Return the current Timer0 Output Compare Register value */
+	return OCR0_REG;
+}
+
+
+/*==================== PWM ====================*/
+
+
+/*========================================================
+ * Function: TIM0_voidSetPWMDutyCycle
+ * Purpose : Set the Timer0 PWM Duty Cycle according to
+ *           the configured PWM mode and output mode
+ *========================================================*/
+void TIM0_voidSetPWMDutyCycle(u8 DutyCycle)
+{
+	if(DutyCycle <= 100)
+	{
+		#if TIM0_MODE == TIM0_FAST_PWM_MODE
+
+			/*==================== FAST PWM MODE ====================*/
+
+			#if TIM0_COMPARE_OUTPUT == TIM0_PWM_NON_INVERTING
+
+				/*==================== NON-INVERTING ====================*/
+
+				switch(DutyCycle)
+				{
+					case 0: TIM0_voidSetCompareReg(0); break;
+					default: TIM0_voidSetCompareReg(((DutyCycle * 256UL) / 100) - 1); break;
+				}
+
+
+			#elif TIM0_COMPARE_OUTPUT == TIM0_PWM_INVERTING
+
+				/*==================== INVERTING ====================*/
+
+				switch(DutyCycle)
+				{
+					case 0: TIM0_voidSetCompareReg(255); break;
+					default: TIM0_voidSetCompareReg(255 - ((DutyCycle * 256UL) / 100)); break;
+				}
+
+			#endif
+
+
+		#elif TIM0_MODE == TIM0_PHASE_CORRECT_PWM_MODE
+
+			/*==================== PHASE CORRECT PWM MODE ====================*/
+
+			#if TIM0_COMPARE_OUTPUT == TIM0_PWM_NON_INVERTING
+
+				/*==================== NON-INVERTING ====================*/
+
+				TIM0_voidSetCompareReg((DutyCycle * (510UL / 2)) / 100);
+
+
+			#elif TIM0_COMPARE_OUTPUT == TIM0_PWM_INVERTING
+
+				/*==================== INVERTING ====================*/
+
+				TIM0_voidSetCompareReg(255 - ((DutyCycle * (510UL / 2)) / 100));
+
+			#endif
+
+		#endif
+	}
+	else{ /* Invalid Duty Cycle Value */ }
+}

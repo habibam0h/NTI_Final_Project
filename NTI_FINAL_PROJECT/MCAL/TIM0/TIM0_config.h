@@ -11,13 +11,13 @@
 /*==================== TIMER0 MODE ====================*/
 
 /* Select Timer0 Operating Mode */
-#define TIM0_MODE               TIM0_NORMAL_MODE
+#define TIM0_MODE               TIM0_FAST_PWM_MODE
 
 
 /*==================== COMPARE OUTPUT MODE ====================*/
 
 /* Select Timer0 Compare Match Output Mode */
-#define TIM0_COMPARE_OUTPUT     TIM0_OC0_DISCONNECTED
+#define TIM0_COMPARE_OUTPUT     TIM0_PWM_NON_INVERTING
 
 
 #endif

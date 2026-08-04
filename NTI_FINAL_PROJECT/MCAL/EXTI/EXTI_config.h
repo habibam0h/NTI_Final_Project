@@ -6,7 +6,7 @@
 /*==================== SENSE MODE CONFIGURATION ====================*/
 
 /* Initial sense mode for INT0 */
-#define EXTI_INT0_SENSE_MODE    EXTI_ANY_CHANGE
+#define EXTI_INT0_SENSE_MODE    EXTI_FALLING_EDGE
 
 /* Initial sense mode for INT1 */
 #define EXTI_INT1_SENSE_MODE    EXTI_ANY_CHANGE

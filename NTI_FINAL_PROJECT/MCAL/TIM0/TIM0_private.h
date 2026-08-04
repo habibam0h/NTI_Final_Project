@@ -5,17 +5,18 @@
 
 /*==================== REGISTERS ====================*/
 
-/* Timer/Counter0 Register */
-#define TCNT0_REG      *((volatile u8*)0x52)
 
 /* Timer/Counter Control Register */
 #define TCCR0_REG      *((volatile u8*)0x53)
 
+/* Timer/Counter Interrupt Mask Register */
+#define TIMSK_REG      *((volatile u8*)0x59)
+
 /* Timer/Counter Interrupt Flag Register */
 #define TIFR_REG       *((volatile u8*)0x58)
 
-/* Timer/Counter Interrupt Mask Register */
-#define TIMSK_REG      *((volatile u8*)0x59)
+/* Timer/Counter0 Register */
+#define TCNT0_REG      *((volatile u8*)0x52)
 
 /* Output Compare Register 0 */
 #define OCR0_REG       *((volatile u8*)0x5C)

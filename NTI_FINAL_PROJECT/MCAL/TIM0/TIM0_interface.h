@@ -30,11 +30,17 @@ typedef void (*TIM0_CallBack_pt)(void);
 
 /*==================== COMPARE OUTPUT MODES ====================*/
 
-/* Timer0 Compare Match Output Options */
-#define TIM0_OC0_DISCONNECTED    0
-#define TIM0_OC0_TOGGLE          1
-#define TIM0_OC0_CLEAR           2
-#define TIM0_OC0_SET             3
+/* Timer0 Non-PWM Compare Match Output Options */
+#define TIM0_OC0_DISCONNECTED       0
+#define TIM0_OC0_TOGGLE             1
+#define TIM0_OC0_CLEAR              2
+#define TIM0_OC0_SET                3
+
+
+/* Timer0 PWM Compare Output Options */
+#define TIM0_PWM_OC0_DISCONNECTED   0
+#define TIM0_PWM_NON_INVERTING      2
+#define TIM0_PWM_INVERTING          3
 
 
 /*==================== FUNCTION PROTOTYPES ====================*/
@@ -135,22 +141,6 @@ void TIM0_voidClearCTCFlag(void);
 
 
 /*
- * Function: TIM0_voidSetCTCReg
- * Purpose : Set the Timer0 Output Compare Register (OCR0)
- *           with a specific value
- */
-void TIM0_voidSetCTCReg(u8 CTCRegValue);
-
-
-/*
- * Function: TIM0_u8GetCTCReg
- * Purpose : Get and return the current Timer0 Output
- *           Compare Register (OCR0) value
- */
-u8 TIM0_u8GetCTCReg(void);
-
-
-/*
  * Function: TIM0_voidCTCSetCallBack
  * Purpose : Set the callback function to be executed when
  *           the Timer0 Compare Match interrupt occurs
@@ -158,4 +148,26 @@ u8 TIM0_u8GetCTCReg(void);
 void TIM0_voidCTCSetCallBack(TIM0_CallBack_pt FunctionAddress);
 
 
+/*
+ * Function: TIM0_voidSetCompareReg
+ * Purpose : Set the Timer0 Output Compare Register (OCR0)
+ *           with a specific value
+ */
+void TIM0_voidSetCompareReg(u8 CompareRegValue);
+
+
+/*
+ * Function: TIM0_u8GetCompareReg
+ * Purpose : Get and return the current Timer0 Output
+ *           Compare Register (OCR0) value
+ */
+u8 TIM0_u8GetCompareReg(void);
+
+
+/*
+ * Function: TIM0_voidSetPWMDutyCycle
+ * Purpose : Set the Timer0 PWM Duty Cycle according to
+ *           the configured PWM mode and output mode
+ */
+void TIM0_voidSetPWMDutyCycle(u8 DutyCycle);
 #endif
