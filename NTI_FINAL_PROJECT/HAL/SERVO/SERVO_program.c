@@ -17,9 +17,6 @@ static u8 SERVO_FrameCounter = 0;
 static u8 SERVO_PulseCount = SERVO_MIN_COUNT;
 
 
-/*==================== INITIALIZATION ====================*/
-
-
 /*========================================================
  * Function: SERVO_voidInitialization
  * Purpose : Initialize the Servo Motor and register the
@@ -27,24 +24,24 @@ static u8 SERVO_PulseCount = SERVO_MIN_COUNT;
  *========================================================*/
 void SERVO_voidInitialization(void)
 {
-	/* Start the Servo at the minimum position */
-	SERVO_PulseCount = SERVO_MIN_COUNT;
+    /* Start the Servo at the minimum position */
+    SERVO_PulseCount = SERVO_MIN_COUNT;
 
-	/* Start from the beginning of the Servo frame */
-	SERVO_FrameCounter = 0;
+    /* Start from the beginning of the Servo frame */
+    SERVO_FrameCounter = 0;
 
-	/* Start the Servo control signal HIGH */
-	DIO_voidSetPinValue(SERVO, DIO_HIGH);
+    /* Set Timer0 Compare Match every 100 us */
+    TIM0_voidSetCompareReg(99);
 
-	/* Register the Servo handler as the Timer0 CTC callback */
-	TIM0_voidCTCSetCallBack(SERVO_voidTimerHandler);
+    /* Start the Servo control signal HIGH */
+    DIO_voidSetPinValue(SERVO, DIO_HIGH);
 
-	/* Enable the Timer0 Compare Match interrupt */
-	TIM0_voidCTCInterruptEnable();
+    /* Register the Servo handler as the Timer0 CTC callback */
+    TIM0_voidCTCSetCallBack(SERVO_voidTimerHandler);
+
+    /* Enable the Timer0 Compare Match interrupt */
+    TIM0_voidCTCInterruptEnable();
 }
-
-
-/*==================== SERVO ANGLE ====================*/
 
 
 /*========================================================
@@ -66,9 +63,6 @@ void SERVO_voidSetAngle(u8 Angle)
 	}
 	else{ /* Invalid Servo Angle */ }
 }
-
-
-/*==================== SERVO TIMER HANDLER ====================*/
 
 
 /*========================================================

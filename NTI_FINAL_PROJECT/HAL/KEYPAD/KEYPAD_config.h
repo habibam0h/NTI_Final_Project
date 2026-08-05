@@ -22,10 +22,10 @@
 /*==================== KEYPAD ROW PINS ====================*/
 
 /* Keypad Row Connections */
-#define KEYPAD_ROW0    DIO_PORTC, DIO_PIN4
-#define KEYPAD_ROW1    DIO_PORTC, DIO_PIN5
-#define KEYPAD_ROW2    DIO_PORTC, DIO_PIN6
-#define KEYPAD_ROW3    DIO_PORTC, DIO_PIN7
+#define KEYPAD_ROW0    DIO_PORTC, DIO_PIN3
+#define KEYPAD_ROW1    DIO_PORTC, DIO_PIN4
+#define KEYPAD_ROW2    DIO_PORTC, DIO_PIN5
+#define KEYPAD_ROW3    DIO_PORTC, DIO_PIN6
 
 
 #endif

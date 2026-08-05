@@ -6,10 +6,10 @@
 /*==================== LED CONFIGURATION ====================*/
 
 /* LED0 is connected to Port A, Pin 0 */
-#define LED0_PORT_PIN    DIO_PORTB, DIO_PIN3
+#define LED0_PORT_PIN    DIO_PORTD, DIO_PIN0
 
 /* LED1 is connected to Port A, Pin 1 */
-#define LED1_PORT_PIN    DIO_PORTA, DIO_PIN1
+#define LED1_PORT_PIN    DIO_PORTD, DIO_PIN1
 
 
 #endif

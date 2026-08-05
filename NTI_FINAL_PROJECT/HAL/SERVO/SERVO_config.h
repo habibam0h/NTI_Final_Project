@@ -5,7 +5,7 @@
 
 /*==================== SERVO PIN ====================*/
 
-#define SERVO                  DIO_PORTA, DIO_PIN0
+#define SERVO                  DIO_PORTD, DIO_PIN4
 
 
 /*==================== SERVO ANGLE ====================*/

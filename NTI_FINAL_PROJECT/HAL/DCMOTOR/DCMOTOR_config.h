@@ -7,13 +7,13 @@
 
 
 /* Pin connected to L293D IN1 */
-#define DCMOTOR_IN1       DIO_PORTB, DIO_PIN0
+#define DCMOTOR_IN1       DIO_PORTB, DIO_PIN5
 
 /* Pin connected to L293D IN2 */
-#define DCMOTOR_IN2       DIO_PORTB, DIO_PIN1
+#define DCMOTOR_IN2       DIO_PORTB, DIO_PIN4
 
 /* Pin connected to L293D ENABLE1 */
-#define DCMOTOR_EN        DIO_PORTB, DIO_PIN2
+#define DCMOTOR_EN        DIO_PORTB, DIO_PIN3
 
 
 #endif

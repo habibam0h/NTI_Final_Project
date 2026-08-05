@@ -33,9 +33,6 @@ void DCMOTOR_voidInitialization(void)
 }
 
 
-/*==================== MOVE UP ====================*/
-
-
 /*========================================================
  * Function: DCMOTOR_voidMoveUp
  * Purpose : Rotate the DC Motor in the direction used
@@ -49,9 +46,6 @@ void DCMOTOR_voidMoveUp(void)
 }
 
 
-/*==================== MOVE DOWN ====================*/
-
-
 /*========================================================
  * Function: DCMOTOR_voidMoveDown
  * Purpose : Rotate the DC Motor in the direction used
@@ -63,9 +57,6 @@ void DCMOTOR_voidMoveDown(void)
 	DIO_voidSetPinValue(DCMOTOR_IN1, DIO_LOW);
 	DIO_voidSetPinValue(DCMOTOR_IN2, DIO_HIGH);
 }
-
-
-/*==================== STOP ====================*/
 
 
 /*========================================================
