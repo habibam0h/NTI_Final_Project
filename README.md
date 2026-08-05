@@ -2,63 +2,56 @@
 
 ## Overview
 
-The **Smart Elevator System** is an embedded systems project developed using the **ATmega32 microcontroller** and simulated in **Proteus**. The project demonstrates how multiple hardware peripherals and software drivers can be integrated to implement a realistic elevator control system.
+The **Smart Elevator System** is an embedded systems project developed in **Embedded C** using the **ATmega32 microcontroller** and simulated in **Proteus ISIS**.
 
-The elevator accepts floor requests through a keypad, determines the appropriate movement direction, controls the elevator motor, simulates door operation using a servo motor, displays system information on an LCD, and provides emergency handling through an external interrupt.
+The system simulates the operation of a **9-floor elevator**, allowing the user to select a destination floor through a **4×3 keypad**. The controller determines the required direction, drives the elevator motor, controls the door using a servo motor, updates the LCD with the elevator status, and handles emergency situations using an external interrupt.
 
-This project was developed following a **layered architecture (LIB → MCAL → HAL → APP)** to ensure modularity, reusability, and maintainability.
+The project follows a **layered software architecture (LIB → MCAL → HAL → APP)**, where each peripheral is implemented as an independent driver to improve modularity, readability, and code reusability.
 
 ---
 
-## Features
+# Features
 
-* Supports **9 elevator floors (1–9)**
+* Supports **9 floors (1–9)**
 * Floor selection using a **4×3 keypad**
-* Automatic movement direction detection
-
-  * Moving Up
-  * Moving Down
-  * Idle
-* LCD displays:
-
-  * Current floor
-  * System status
-  * Emergency messages
-* Door control using a **Servo Motor**
-* Elevator movement using a **DC Motor**
-* Emergency stop using an **External Interrupt (INT0)**
-* Audible emergency alarm using a **Buzzer**
-* Status indication using **LEDs**
-* Timer0-based software PWM for servo control
-* Modular driver-based software architecture
+* Automatic movement direction detection (Up / Down)
+* Current floor displayed on a **16×2 LCD**
+* Elevator door controlled using a **servo motor**
+* Elevator movement controlled by a **DC motor** through an **L293D motor driver**
+* Emergency stop using **INT0 External Interrupt**
+* Audible alarm using a **buzzer**
+* Emergency status indication using an **LED**
+* Emergency reset using the **'#' key**
+* **TIM0 configured in CTC (Clear Timer on Compare Match) mode** for precise timing and servo control
+* Fully modular driver-based software design
 
 ---
 
-## Hardware Components
+# Hardware Components
 
 * ATmega32 Microcontroller
 * 16×2 LCD
-* 4×3 Keypad
+* 4×3 Matrix Keypad
 * DC Motor
-* L293D Motor Driver
+* L293D Motor Driver IC
 * Servo Motor
 * Buzzer
-* LEDs
-* Push Button (Emergency Stop)
+* LED
+* Push Button (Emergency Switch)
 * Proteus Virtual Components
 
 ---
 
-## Software Architecture
+# Software Architecture
 
-The project follows a layered architecture:
+The project is organized into four software layers:
 
 ```text
-APP
+APP/
 │
-├── Elevator Application Logic
+├── Elevator Control Logic
 │
-HAL
+HAL/
 ├── LCD Driver
 ├── Keypad Driver
 ├── DC Motor Driver
@@ -66,153 +59,144 @@ HAL
 ├── LED Driver
 └── Buzzer Driver
 │
-MCAL
+MCAL/
 ├── DIO
-├── Timer0
+├── TIM0
 ├── EXTI
-├── GIE
-└── ADC
+└── GIE
 │
-LIB
+LIB/
 ├── Std_Types
 └── Bit_Math
 ```
 
-This structure separates hardware abstraction from application logic, making the code easier to maintain and extend.
+Each layer is responsible for a specific abstraction level, making the project easier to maintain, debug, and expand.
 
 ---
 
-## Project Workflow
+# System Operation
 
-1. System initialization
-2. User selects the destination floor
-3. Controller validates the requested floor
-4. Elevator determines the movement direction
-5. DC motor moves the elevator
-6. LCD updates the current floor
-7. Upon arrival:
+1. The system initializes all peripherals.
+2. The user enters a destination floor using the keypad.
+3. The controller validates the selected floor.
+4. The elevator determines whether to move **up** or **down**.
+5. The DC motor moves the elevator.
+6. The LCD continuously displays the current floor.
+7. Once the destination floor is reached:
 
-   * Motor stops
-   * Servo opens the door
-   * Waits for passengers
-   * Servo closes the door
-8. System returns to the idle state
-
----
-
-## Emergency Mode
-
-The elevator includes an emergency safety mechanism:
-
-* Emergency button connected to **INT0**
-* Motor stops immediately
-* Buzzer alarm is activated
-* LCD displays an emergency warning
-* System remains locked until the user acknowledges the alarm by pressing **#**
-* Elevator resumes normal operation after reset
+   * The motor stops.
+   * The servo motor opens the elevator door.
+   * The system waits for a predefined period.
+   * The servo closes the door.
+8. The elevator returns to the idle state awaiting the next request.
 
 ---
 
-## Drivers Implemented
+# Emergency Mode
 
-### MCAL Drivers
+An emergency button connected to **INT0** provides immediate interruption of normal operation.
 
-* DIO
-* Timer0
+When the emergency interrupt occurs:
+
+* Elevator movement stops immediately.
+* The buzzer is activated.
+* The emergency LED turns on.
+* The LCD displays an emergency message.
+* The system ignores new floor requests until the emergency is cleared.
+* Pressing the **'#' key** resets the emergency state and resumes normal operation.
+
+---
+
+# Drivers Implemented
+
+## MCAL Drivers
+
+* Digital Input/Output (DIO)
+* Timer0 (CTC Mode)
 * External Interrupt (EXTI)
 * Global Interrupt Enable (GIE)
-* ADC
 
-### HAL Drivers
+## HAL Drivers
 
-* LCD
-* Keypad
-* DC Motor
-* Servo Motor
-* LED
-* Buzzer
+* LCD Driver
+* Matrix Keypad Driver
+* DC Motor Driver
+* Servo Motor Driver
+* LED Driver
+* Buzzer Driver
 
 ---
 
-## Technologies Used
+# Technologies Used
 
 * Embedded C
 * AVR-GCC
 * Eclipse IDE
 * Proteus ISIS
-* ATmega32
+* ATmega32 Microcontroller
 
 ---
 
-## Repository Structure
+# Repository Structure
 
 ```text
-.
+Smart-Elevator-System/
+│
 ├── APP/
 ├── HAL/
 ├── MCAL/
 ├── LIB/
-├── Debug/
 ├── Proteus/
 ├── HEX/
+├── Debug/
 └── README.md
 ```
 
 ---
 
-## How to Run
+# How to Run
 
 1. Open the project in Eclipse AVR.
-2. Build the project to generate the `.hex` file.
+2. Build the project to generate the HEX file.
 3. Open the Proteus simulation.
-4. Load the generated `.hex` file into the ATmega32.
-5. Run the simulation.
-6. Select floors using the keypad and observe the elevator operation.
+4. Load the generated HEX file into the ATmega32.
+5. Start the simulation.
+6. Select a floor using the keypad and observe the elevator operation.
 
 ---
 
-## Learning Outcomes
+# Learning Outcomes
 
-This project demonstrates practical implementation of:
+This project demonstrates practical experience with:
 
-* Embedded software architecture
+* Embedded C programming
+* Layered software architecture
 * Driver development
-* Digital I/O programming
-* Interrupt handling
-* Timer-based software PWM
-* Servo motor control
-* DC motor control
+* Digital I/O interfacing
+* Timer programming using **Timer0 CTC Mode**
+* External interrupts
 * LCD interfacing
-* Keypad scanning
+* Matrix keypad scanning
+* Servo motor control
+* DC motor control using the L293D
 * Embedded state-machine design
-* Modular software development
+* Modular software engineering
 
 ---
 
-## Future Improvements
+# Future Improvements
 
-* Floor request queue management
-* Multiple simultaneous requests
+* Queue multiple floor requests
+* Add floor request prioritization
 * Door obstruction detection
 * Weight sensor integration
+* UART-based monitoring and debugging
+* EEPROM storage for the last elevator state
+* Power failure recovery
 * Seven-segment floor indicator
-* UART-based monitoring
-* EEPROM storage of last floor
-* Automatic power recovery
-* Real-time clock integration
 
 ---
 
-## Author
+# License
 
-**Habiba Elawadly**
-
-Computer Engineering Student
-
-Embedded Systems | AVR | Embedded C | ATmega32 | Proteus
-
----
-
-## License
-
-This project is intended for educational and learning purposes.
+This project is intended for educational purposes and to demonstrate embedded systems concepts using the ATmega32 microcontroller.
