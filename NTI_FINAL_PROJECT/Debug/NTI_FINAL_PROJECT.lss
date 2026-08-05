@@ -6820,7 +6820,7 @@ int main(void)
     2aa4:	0e 94 18 13 	call	0x2630	; 0x2630 <KEYPAD_u8GetPressedKey>
     2aa8:	98 2f       	mov	r25, r24
 
-		if(Key >= '1' && Key <= '9')
+		if((Key >= ('0' + MIN_FLOOR)) && (Key <= ('0' + MAX_FLOOR)))
     2aaa:	81 53       	subi	r24, 0x31	; 49
     2aac:	89 30       	cpi	r24, 0x09	; 9
     2aae:	98 f7       	brcc	.-26     	; 0x2a96 <main+0x4>

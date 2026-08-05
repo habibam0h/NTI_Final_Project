@@ -34,7 +34,7 @@ void MAIN_voidCloseDoor(void);
 /*==================== FLOOR LIMITS ====================*/
 
 #define MIN_FLOOR    1
-#define MAX_FLOOR    4
+#define MAX_FLOOR    9
 
 
 /*==================== APPLICATION STATES ====================*/
@@ -288,7 +288,7 @@ int main(void)
 		/* Read the requested Floor from the Keypad */
 		Key = KEYPAD_u8GetPressedKey();
 
-		if(Key >= '1' && Key <= '9')
+		if((Key >= ('0' + MIN_FLOOR)) && (Key <= ('0' + MAX_FLOOR)))
 		{
 			TargetFloor = Key - '0';
 
